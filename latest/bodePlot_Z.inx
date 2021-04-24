@@ -219,6 +219,10 @@
                 </vbox>
             </hbox>
         </page>
+        <page name="Help" gui-text="Help">
+            <label>For details please refer to</label>
+            <label appearance="url">https://github.com/fsmMLK/inkscapeBodePlot</label>
+        </page>
     </param>
     <effect>
         <object-type>all</object-type>
