@@ -1,0 +1,239 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<inkscape-extension xmlns="http://www.inkscape.org/namespace/inkscape/extension">
+    <name>Bode Plot H(s)</name>
+    <id>fsmMLK.BodePlotS</id>
+    <dependency type="executable" location="inx">bodePlot.py</dependency>
+    <dependency type="executable" location="extensions">inkscapeMadeEasy/inkscapeMadeEasy_Base.py</dependency>
+    <dependency type="executable" location="extensions">inkscapeMadeEasy/inkscapeMadeEasy_Draw.py</dependency>
+    <dependency type="executable" location="extensions">inkscapeMadeEasy/inkscapeMadeEasy_Plot.py</dependency>
+    <param name="tab" type="notebook">
+        <page name="BodePlot_S" appearance="minimal" gui-text="Bode Data">
+            <hbox>
+                <vbox>
+                    <label appearance="header">Transfer function definition</label>
+                    <label>obs: separate values with comma or space</label>
+                    <label>Numerator coefficients¹</label>
+                    <param name="numerator" type="string" gui-text="">1 2 1</param>
+                    <label>Denominator coefficients¹</label>
+                    <param name="denominator" type="string" gui-text="">1</param>
+                    <param name="nPoints" type="int" min="2" max="1000" gui-text="Number of points:">20</param>
+
+                    <label appearance="header">Plots</label>
+                    <hbox>
+                        <param name="plotGain" type="bool" gui-text="Gain">True</param>
+                        <param name="plotPhase" type="bool" gui-text="Phase">True</param>
+                        <param name="plotZP" type="bool" gui-text="Zero/Pole">True</param>
+                        <param name="writeEqn" type="bool" gui-text="Write H(s)">True</param>
+                    </hbox>
+                    <label appearance="header">Frequency config (log scale)</label>
+                    <hbox>
+                        <param name="fMinS" type="int" min="-10" max="10" gui-text="range(10^n):">0</param>
+                        <param name="fMaxS" type="int" min="-10" max="10" gui-text=" ">6</param>
+                    </hbox>
+                    <hbox>
+                        <param name="fLabel" type="optiongroup" appearance="combo" gui-text="Label:">
+                            <option value="lower">f or ω</option>
+                            <option value="upper">F or Ω</option>
+                            <option value="custom">custom</option>
+                        </param>
+                        <param name="fLabelCustom" type="string" gui-text=" ">freq.</param>
+                    </hbox>
+                    <hbox>
+                        <vbox>
+                            <param name="fTicks" type="bool" gui-text="Add ticks">False</param>
+                            <param name="fGrid" type="bool" gui-text="Add grid">False</param>
+                        </vbox>
+                        <spacer/>
+                        <separator/>
+                        <spacer/>
+                        <vbox>
+                            <param name="fUnit" type="optiongroup" appearance="combo" gui-text="Unit:">
+                                <option value="rad/s">rad/s</option>
+                                <option value="hz">hertz</option>
+                            </param>
+                            <param name="fScale" type="float" min="1" max="2000" gui-text="Tick length:">20</param>
+                        </vbox>
+                    </hbox>
+                </vbox>
+            </hbox>
+            <spacer size="expand"/>
+            <label>¹ Coefficients ordered in decreasing powers of s.</label>
+        </page>
+        <page name="BodePlot_S_config" appearance="minimal" gui-text="Config">
+            <hbox>
+                <vbox>
+                    <label appearance="header">General config</label>
+                    <param name="generalAspectFactor" type="float" precision="2" min="0.01" max="100" gui-text="General aspect factor (default: 1.0):">1</param>
+                    <label appearance="header">Plot config</label>
+                    <param name="subTab_confPlot" type="notebook">
+                        <page name="GainPlot" appearance="minimal" gui-text="Gain">
+                            <hbox>
+                                <vbox>
+                                    <hbox>
+                                        <param name="gLabel" type="optiongroup" appearance="combo" gui-text="Label:">
+                                            <option value="symbol">|H(...)|</option>
+                                            <option value="custom">custom</option>
+                                        </param>
+                                        <param name="gLabelCustom" type="string" gui-text=" ">gain</param>
+                                    </hbox>
+                                    <param name="yMaxGain" type="float" min="0" precision="3" max="10000" gui-text="Gain plot limit:">2</param>
+                                    <hbox>
+                                        <vbox>
+                                            <param name="yTicksGain" type="bool" gui-text="Add ticks">False</param>
+                                            <param name="yGridGain" type="bool" gui-text="Add grid">False</param>
+                                            <param name="gUnit" type="optiongroup" appearance="combo" gui-text="Scale">
+                                                <option value="linear">linear</option>
+                                                <option value="log10">log10</option>
+                                                <option value="dB">dB</option>
+                                            </param>
+                                        </vbox>
+                                        <spacer/>
+                                        <separator/>
+                                        <spacer/>
+                                        <vbox>
+                                            <param name="yTickStepGain" type="float" min="0.01" max="200" precision="2" gui-text="Tick step¹:">0.5</param>
+                                            <param name="yScaleGain" type="float" min="1" max="2000" gui-text="Tick length³:">10</param>
+                                        </vbox>
+                                    </hbox>
+                                </vbox>
+                            </hbox>
+                            <spacer size="expand"/>
+                            <label>¹ Linear and dB scales only</label>
+                            <label>² Or the length of 1 decade in log scale</label>
+                        </page>
+                        <page name="PhasePlot" appearance="minimal" gui-text="Phase">
+                            <hbox>
+                                <vbox>
+                                    <hbox>
+                                        <param name="pLabel" type="optiongroup" appearance="combo" gui-text="Label:">
+                                            <option value="symbol">/_H(...)</option>
+                                            <option value="custom">custom</option>
+                                        </param>
+                                        <param name="pLabelCustom" type="string" gui-text=" ">gain</param>
+                                    </hbox>
+                                    <hbox>
+                                        <vbox>
+                                            <param name="yTicksPhase" type="bool" gui-text="Add ticks">False</param>
+                                            <param name="yGridPhase" type="bool" gui-text="Add grid">False</param>
+                                            <param name="pUnit" type="optiongroup" appearance="combo" gui-text="Unit:">
+                                                <option value="deg">Degree</option>
+                                                <option value="rad">Radian</option>
+                                                <option value="radPi">Radian (xπ)</option>
+                                            </param>
+                                        </vbox>
+                                        <spacer/>
+                                        <separator/>
+                                        <spacer/>
+                                        <vbox>
+                                            <param name="yTickStepPhaseDeg" type="float" min="0" max="180" gui-text="Tick step¹:">45</param>
+                                            <param name="yScalePhase" type="float" min="1" max="2000" gui-text="Tick length:">10</param>
+                                        </vbox>
+                                    </hbox>
+                                </vbox>
+                            </hbox>
+                            <spacer size="expand"/>
+                            <label>¹ Always in degrees. </label>
+                        </page>
+                        <page name="ZeroPole" appearance="minimal" gui-text="Zero/Pole">
+                            <vbox>
+                            <param name="markerAspectFactor" type="float" precision="2" min="0.01" max="100" gui-text="Mark size factor (default: 1.0):">1</param>
+                                <hbox>
+                                    <vbox>
+                                        <param name="ZPTicks" type="bool" gui-text="Add ticks">False</param>
+                                        <param name="ZPGrid" type="bool" gui-text="Add grid">False</param>
+                                    </vbox>
+                                    <spacer/>
+                                    <separator/>
+                                    <spacer/>
+                                    <vbox>
+                                        <param name="ZPTickStep" type="float" min="0.1" precision="1" max="20" gui-text="Tick step:">False</param>
+                                        <param name="ZPScale" type="float" min="5" max="200" precision="1" gui-text="Tick length:">5</param>
+                                    </vbox>
+
+                                </hbox>
+                                <label appearance="header">Colors</label>
+                                <hbox>
+                                    <param name="zeroColor" type="optiongroup" appearance="combo" gui-text="Zero (o):">
+                                        <option value="black">black</option>
+                                        <option value="none">none</option>
+                                        <option value="red">red</option>
+                                        <option value="blue">blue</option>
+                                        <option value="yellow">yellow</option>
+                                        <option value="green">green</option>
+                                        <option value="magen">magenta</option>
+                                        <option value="white">white</option>
+                                        <option value="Lred">Lred</option>
+                                        <option value="Lblue">Lblue</option>
+                                        <option value="Lyellow">Lyellow</option>
+                                        <option value="Lgreen">Lgreen</option>
+                                        <option value="Lmagen">Lmagenta</option>
+                                        <option value="Dred">Dred</option>
+                                        <option value="Dblue">Dblue</option>
+                                        <option value="Dyellow">Dyellow</option>
+                                        <option value="Dgreen">Dgreen</option>
+                                        <option value="Dmagen">Dmagenta</option>
+                                        <option value="picker">use color picker</option>
+                                    </param>
+                                    <param name="zeroColorPicker" type="color" appearance="colorbutton" gui-text=" "/>
+                                </hbox>
+                                <hbox>
+                                    <param name="poleColor" type="optiongroup" appearance="combo" gui-text="Pole (x):">
+                                        <option value="black">black</option>
+                                        <option value="none">none</option>
+                                        <option value="red">red</option>
+                                        <option value="blue">blue</option>
+                                        <option value="yellow">yellow</option>
+                                        <option value="green">green</option>
+                                        <option value="magen">magenta</option>
+                                        <option value="white">white</option>
+                                        <option value="Lred">Lred</option>
+                                        <option value="Lblue">Lblue</option>
+                                        <option value="Lyellow">Lyellow</option>
+                                        <option value="Lgreen">Lgreen</option>
+                                        <option value="Lmagen">Lmagenta</option>
+                                        <option value="Dred">Dred</option>
+                                        <option value="Dblue">Dblue</option>
+                                        <option value="Dyellow">Dyellow</option>
+                                        <option value="Dgreen">Dgreen</option>
+                                        <option value="Dmagen">Dmagenta</option>
+                                        <option value="picker">use color picker</option>
+                                    </param>
+                                    <param name="poleColorPicker" type="color" appearance="colorbutton" gui-text=" "/>
+                                </hbox>
+                            </vbox>
+                        </page>
+                        <page name="writeEquation" appearance="minimal" gui-text="H(s)">
+                            <hbox>
+                                <vbox>
+                                    <param name="eqnPrecision" type="int" min="0" max="10" gui-text="Precision:">2</param>
+                                    <param name="eqnSimplifyOne" type="bool" gui-text="Replace 1.s^n -> s^n">False</param>
+                                    <param name="eqnSimplifySZ1" type="bool" gui-text="Replace s^1 -> s">False</param>
+                                    <param name="eqnSimplifySZ0" type="bool" gui-text="Replace N.s^0 -> N">False</param>
+                                    <param name="eqnHideZeroTerms" type="bool" gui-text="Hide 0.s^n">False</param>
+                                    <param name="eqnNormalizeDen" type="bool" gui-text="Normalize denominator">False</param>
+                                </vbox>
+                            </hbox>
+                        </page>
+                    </param>
+                </vbox>
+            </hbox>
+        </page>
+        <page name="Help" gui-text="Help">
+            <label>For details please refer to</label>
+            <label appearance="url">https://github.com/fsmMLK/inkscapeBodePlot</label>
+        </page>
+    </param>
+    <effect>
+        <object-type>all</object-type>
+        <effects-menu>
+            <submenu name="fsmMLK">
+                <submenu name="Plot 2D">
+                    <submenu name="Bode Plot"/>
+                </submenu>
+            </submenu>
+        </effects-menu>
+    </effect>
+    <script>
+        <command location="inx" interpreter="python">bodePlot.py</command>
+    </script>
+</inkscape-extension>
