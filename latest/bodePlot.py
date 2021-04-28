@@ -113,8 +113,8 @@ class BodePlot(inkBase.inkscapeMadeEasy):
 
 
         # colors
-        [zeroColor, _] = inkDraw.color.parseColorPicker(so.zeroColor, so.zeroColorPicker)
-        [poleColor, _] = inkDraw.color.parseColorPicker(so.poleColor, so.poleColorPicker)
+        zeroColor = inkDraw.color.parseColorPicker(so.zeroColor, so.zeroColorPicker)
+        poleColor = inkDraw.color.parseColorPicker(so.poleColor, so.poleColorPicker)
 
         # sets the position to the viewport center, round to next 10.
         position = [self.svg.namedview.center[0], self.svg.namedview.center[1]]
