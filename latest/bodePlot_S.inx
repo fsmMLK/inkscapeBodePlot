@@ -20,10 +20,10 @@
 
                     <label appearance="header">Plots</label>
                     <hbox>
-                        <param name="plotGain" type="bool" gui-text="Gain">True</param>
-                        <param name="plotPhase" type="bool" gui-text="Phase">True</param>
-                        <param name="plotZP" type="bool" gui-text="Zero/Pole">True</param>
-                        <param name="writeEqn" type="bool" gui-text="Write H(s)">True</param>
+                        <param name="plotGain" type="bool" gui-text="Gain">true</param>
+                        <param name="plotPhase" type="bool" gui-text="Phase">true</param>
+                        <param name="plotZP" type="bool" gui-text="Zero/Pole">true</param>
+                        <param name="writeEqn" type="bool" gui-text="Write H(s)">true</param>
                     </hbox>
                     <label appearance="header">Frequency config (log scale)</label>
                     <hbox>
@@ -40,8 +40,8 @@
                     </hbox>
                     <hbox>
                         <vbox>
-                            <param name="fTicks" type="bool" gui-text="Add ticks">False</param>
-                            <param name="fGrid" type="bool" gui-text="Add grid">False</param>
+                            <param name="fTicks" type="bool" gui-text="Add ticks">false</param>
+                            <param name="fGrid" type="bool" gui-text="Add grid">false</param>
                         </vbox>
                         <spacer/>
                         <separator/>
@@ -79,8 +79,8 @@
                                     <param name="yMaxGain" type="float" min="0" precision="3" max="10000" gui-text="Gain plot limit:">2</param>
                                     <hbox>
                                         <vbox>
-                                            <param name="yTicksGain" type="bool" gui-text="Add ticks">False</param>
-                                            <param name="yGridGain" type="bool" gui-text="Add grid">False</param>
+                                            <param name="yTicksGain" type="bool" gui-text="Add ticks">false</param>
+                                            <param name="yGridGain" type="bool" gui-text="Add grid">false</param>
                                             <param name="gUnit" type="optiongroup" appearance="combo" gui-text="Scale">
                                                 <option value="linear">linear</option>
                                                 <option value="log10">log10</option>
@@ -113,8 +113,8 @@
                                     </hbox>
                                     <hbox>
                                         <vbox>
-                                            <param name="yTicksPhase" type="bool" gui-text="Add ticks">False</param>
-                                            <param name="yGridPhase" type="bool" gui-text="Add grid">False</param>
+                                            <param name="yTicksPhase" type="bool" gui-text="Add ticks">false</param>
+                                            <param name="yGridPhase" type="bool" gui-text="Add grid">false</param>
                                             <param name="pUnit" type="optiongroup" appearance="combo" gui-text="Unit:">
                                                 <option value="deg">Degree</option>
                                                 <option value="rad">Radian</option>
@@ -139,14 +139,14 @@
                             <param name="markerAspectFactor" type="float" precision="2" min="0.01" max="100" gui-text="Mark size factor (default: 1.0):">1</param>
                                 <hbox>
                                     <vbox>
-                                        <param name="ZPTicks" type="bool" gui-text="Add ticks">False</param>
-                                        <param name="ZPGrid" type="bool" gui-text="Add grid">False</param>
+                                        <param name="ZPTicks" type="bool" gui-text="Add ticks">false</param>
+                                        <param name="ZPGrid" type="bool" gui-text="Add grid">false</param>
                                     </vbox>
                                     <spacer/>
                                     <separator/>
                                     <spacer/>
                                     <vbox>
-                                        <param name="ZPTickStep" type="float" min="0.1" precision="1" max="20" gui-text="Tick step:">False</param>
+                                        <param name="ZPTickStep" type="float" min="0.1" precision="1" max="20" gui-text="Tick step:">false</param>
                                         <param name="ZPScale" type="float" min="5" max="200" precision="1" gui-text="Tick length:">5</param>
                                     </vbox>
 
@@ -206,11 +206,11 @@
                             <hbox>
                                 <vbox>
                                     <param name="eqnPrecision" type="int" min="0" max="10" gui-text="Precision:">2</param>
-                                    <param name="eqnSimplifyOne" type="bool" gui-text="Replace 1.s^n -> s^n">False</param>
-                                    <param name="eqnSimplifySZ1" type="bool" gui-text="Replace s^1 -> s">False</param>
-                                    <param name="eqnSimplifySZ0" type="bool" gui-text="Replace N.s^0 -> N">False</param>
-                                    <param name="eqnHideZeroTerms" type="bool" gui-text="Hide 0.s^n">False</param>
-                                    <param name="eqnNormalizeDen" type="bool" gui-text="Normalize denominator">False</param>
+                                    <param name="eqnSimplifyOne" type="bool" gui-text="Replace 1.s^n -> s^n">false</param>
+                                    <param name="eqnSimplifySZ1" type="bool" gui-text="Replace s^1 -> s">false</param>
+                                    <param name="eqnSimplifySZ0" type="bool" gui-text="Replace N.s^0 -> N">false</param>
+                                    <param name="eqnHideZeroTerms" type="bool" gui-text="Hide 0.s^n">false</param>
+                                    <param name="eqnNormalizeDen" type="bool" gui-text="Normalize denominator">false</param>
                                 </vbox>
                             </hbox>
                         </page>

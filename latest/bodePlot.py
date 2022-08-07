@@ -163,7 +163,6 @@ class BodePlot(inkBase.inkscapeMadeEasy):
                 extraTextfreq = ''
 
         # write equation
-        signFunc = lambda x: ('+', '-')[x < 0]
         if so.writeEqn:
             if self.useLatex:
                 if self.typeTime == 'continuous':
@@ -200,7 +199,10 @@ class BodePlot(inkBase.inkscapeMadeEasy):
                                     else:
                                         szN = 'z^{-%d}' % n
 
-                        sign = signFunc(x)
+                        if x >= 0:
+                            sign = '+'
+                        else:
+                            sign = '-'
 
                         if abs(x)==1.0 and so.eqnSimplifyOne:
                             coef = ''
@@ -398,7 +400,7 @@ class BodePlot(inkBase.inkscapeMadeEasy):
             if so.fUnit == 'hz':
                 freqUnit = r' (\si{\hertz})'
             if so.fUnit == 'rad/s':
-                freqUnit = r' (\si{\rad\per\second})'
+                freqUnit = r' (\si{\radian\per\second})'
         # ------------
         # DISCRETE TIME
         # ------------
@@ -416,16 +418,16 @@ class BodePlot(inkBase.inkscapeMadeEasy):
 
             # units
             if so.fUnit == 'freqRad':
-                freqUnit = r' (\si{\rad\per sample})'
+                freqUnit = r' (\si{\radian\per sample})'
             if so.fUnit == 'freqNorm':
-                freqUnit = r' (\times \pi \si{\rad\per sample})'
+                freqUnit = r' (\times \pi \si{\radian\per sample})'
 
         # GAIN AND PHASE UNITS
 
         if so.pUnit == 'deg':
             pUnit = r' (\si\degree)'
         if so.pUnit == 'rad' or so.pUnit == 'radPi':
-            pUnit = r' (\si\rad)'
+            pUnit = r' (\si\radian)'
 
         if so.gUnit == 'dB':
             gUnit = r' (\text{dB})'
@@ -573,10 +575,10 @@ class BodePlot(inkBase.inkscapeMadeEasy):
 
         if so.fUnit == 'freqRad':
             freqData = freqDataRad / math.pi  # divides by pi bc the plot will be in function of pi.
-            xlabel = r'$%s$ (\si{\rad\per sample})' % so.fLabel
+            xlabel = r'$%s$ (\si{\radian\per sample})' % so.fLabel
         if so.fUnit == 'freqNorm':
             freqData = freqDataRad / math.pi  # convert from omega in rad to omega normalized (1.0 = nyquist)
-            xlabel = r'$%s$ ($\times \pi$ \si{\rad\per sample})' % so.fLabel
+            xlabel = r'$%s$ ($\times \pi$ \si{\radian\per sample})' % so.fLabel
 
         zData = np.exp(-1j * freqDataRad)  # negative angles because the polinomials are powers of z^{-1}
         # generate y data
